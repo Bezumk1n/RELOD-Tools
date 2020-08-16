@@ -196,8 +196,8 @@ namespace RELOD_Tools.PriceList
                 Price           = "Цена с НДС",
                 VAT             = "НДС",
                 Group           = "Группа товара",
-                QTYwarehouse    = "Кол-во товара на складе",
-                QTYstore        = "Кол-во товара в магазине",
+                QTYwarehouse    = "Кол-во на складе",
+                QTYstore        = "Кол-во в магазине",
                 ShortTitle      = "Краткое наименование"
             }
             );

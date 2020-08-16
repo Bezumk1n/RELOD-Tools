@@ -1,0 +1,144 @@
+﻿<Window x:Class="RELOD_Tools.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RELOD_Tools"
+        mc:Ignorable="d"
+        Title="RELOD Tools" Height="450" Width="330" ResizeMode="CanMinimize">
+    <DockPanel>
+        <TabControl>
+            <TabItem Header="Поиск по сайтам" Height="23" VerticalAlignment="Top">
+                <Grid>
+                    <Label
+                        Content="Поле для ввода ISBN:"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top">
+                    </Label>
+                    <Label Content="Где искать:"
+                           Margin="170,0,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top">
+                    </Label>
+                    <TextBox x:Name="userInput"
+                         AcceptsReturn="True"
+                         Margin="5,30,0,30" 
+                         HorizontalAlignment="Left" Width="150">
+                    </TextBox>
+                    <ComboBox x:Name="webSite"
+                              Text="Выберите сайт" Height="25" Width="130"
+                              VerticalAlignment="Top"
+                              HorizontalAlignment="Left"
+                              Margin="170,30,0,0">
+                        <ComboBoxItem IsSelected="True">ABE-IPS</ComboBoxItem>
+                        <ComboBoxItem>American PubEasy</ComboBoxItem>
+                        <ComboBoxItem>BookDepository</ComboBoxItem>
+                        <ComboBoxItem>Gardners</ComboBoxItem>
+                        <ComboBoxItem>Libri</ComboBoxItem>
+                        <ComboBoxItem>PubEasy</ComboBoxItem>
+                    </ComboBox>
+                    <Button x:Name="SearchButton" Content="Найти" Height="25" Width="130"
+                              VerticalAlignment="Top"
+                              HorizontalAlignment="Left"
+                              Margin="170,60,0,0" 
+                              Click="SearchButton_Click">
+                    </Button>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Прайс-лист">
+                <Grid>
+                    <TextBlock
+                        Text="По-умолчанию генерируется прайс-лист по наличию, то есть если на данный момент товара нет на складе, то он не попадет в прайс. 
+                        Если нужно сгенерировать прайс с товаром, которого нет в наличии - поставьте галку:"
+                        TextWrapping="Wrap"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        Margin="170,90,0,0">
+                    </TextBlock>
+                    <CheckBox
+                        x:Name="fullPrice"
+                        Content="Полный прайс"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Margin="170,270,0,55"
+                        >
+                    </CheckBox>
+                    <Label
+                        Content="Группы для исключения:"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top">
+                    </Label>
+                    <TextBox x:Name="groupsForExclude"
+                         TextChanged="GroupsForExclude_TextChanged"
+                         AcceptsReturn="True"
+                         Margin="5,30,0,30" 
+                         HorizontalAlignment="Left" Width="150">
+                    </TextBox>
+                    <Button x:Name="generatrePriceListButton" Content="Выбрать файл" Height="25" Width="130"
+                              VerticalAlignment="Top"
+                              HorizontalAlignment="Left"
+                              Margin="170,30,0,0" 
+                              Click="GeneratePrice_Click">
+                    </Button>
+                    <Button x:Name="saveGroupsBtn" Content="Сохранить" Height="25" Width="130"
+                              VerticalAlignment="Top"
+                              HorizontalAlignment="Left"
+                              Margin="170,60,0,0" 
+                              Click="SaveGroup_Click">
+                    </Button>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Сравнение авторов">
+                <Grid>
+                    <Label
+                        Content="Авторы:"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top">
+                    </Label>
+                    <TextBox x:Name="authors"
+                         AcceptsReturn="True"
+                         Margin="5,30,0,30" 
+                         HorizontalAlignment="Left" Width="150">
+                    </TextBox>
+                    <Button x:Name="authorsCompareBtn" Content="Сравнить" Height="25" Width="130"
+                              VerticalAlignment="Top"
+                              HorizontalAlignment="Left"
+                              Margin="170,30,0,0" 
+                              Click="CompareAuthors_Click">
+                    </Button>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Сгенерировать коды">
+                <Grid Margin="0,10, 0, 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" ToolTip="По-умолчанию генерируется 1 код">Количество кодов (от 1 до 1000 штук):</Label>
+                    <TextBox x:Name="codesQTY" Grid.Row="0" Grid.Column="1" Margin="0,0,0,10"></TextBox>
+
+                    <Label Grid.Row="1" ToolTip="По-умолчанию длинна кода - 10 символов">Длинна кода (от 10 до 20 символов):</Label>
+                    <TextBox x:Name="codesLength" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10"></TextBox>
+
+                    <Label Grid.Row="2">Код должен начинаться с:</Label>
+                    <TextBox x:Name="mustStartWith" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10"></TextBox>
+
+                    <Label Grid.Row="3">Код должен заканчиваться на:</Label>
+                    <TextBox x:Name="mustEnd" Grid.Row="3" Grid.Column="1" Margin="0,0,0,10"></TextBox>
+
+                    <Button Grid.Row="4" Grid.ColumnSpan="2" x:Name="generateCode" Content="Сгенерировать код" Width="150" Height="25" VerticalAlignment="Top" Margin="0,0,0,10" Click="GenerateCode_Click"></Button>
+                    <Button Grid.Row="5" Grid.ColumnSpan="2" x:Name="showCodes" Content="Показать коды" Width="150" Height="25" VerticalAlignment="Top" Margin="0,0,0,10" Click="ShowCodes_Click"></Button>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>

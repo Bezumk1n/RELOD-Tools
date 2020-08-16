@@ -44,10 +44,11 @@ namespace RELOD_Tools.AuthorsCompare
 
             List<AuthorsList> authorsList = new List<AuthorsList>();
 
+            string tempAuthor;
             for (int i = 0; i < authors.Length; i++)
             {
                 // Убираем все лишние символы, т.к. автор может быть написан как "Herbert Wells" так и "Wells, Herbert"
-                string tempAuthor = AlphabetCheck.Check(authors[i]);
+                tempAuthor = AlphabetCheck.Check(authors[i]);
                 tempAuthor = tempAuthor.Replace(" ", "");
                 tempAuthor = tempAuthor.Replace(",", "");
                 tempAuthor = tempAuthor.Replace("-", "");
@@ -61,25 +62,25 @@ namespace RELOD_Tools.AuthorsCompare
                 //==================================================================================================
                 
                 // В этой части разбиваем автора на символы и складываем хешсумму
-                //int summ = 0;
-
                 char[] temp = tempAuthor.ToCharArray();
+
                 Array.Sort(temp);
+
                 string sortedAuthor = "";
+
                 for (int j = 0; j < compareList.GetUpperBound(0); j++)
                 {
                     if ( new string(temp) == compareList[j, 2])
                     {
                         sortedAuthor = compareList[j, 0];
                     }
-                    //summ += chr[j].GetHashCode();
                 }
                 //==================================================================================================
 
                 authorsList.Add(new AuthorsList 
                 {
                     OriginAuthor        = authors[i],
-                    Author              = tempAuthor,
+                    SortedAuthorName    = tempAuthor,
                     NameInBitrix        = sortedAuthor,
                 });
             }
@@ -92,7 +93,7 @@ namespace RELOD_Tools.AuthorsCompare
         private class AuthorsList
         { 
             public string OriginAuthor { get; set; }
-            public string Author { get; set; }
+            public string SortedAuthorName { get; set; }
             public string NameInBitrix { get; set; }
         }
     }

@@ -8,7 +8,7 @@
         Title="RELOD Tools" Height="450" Width="330" ResizeMode="CanMinimize">
     <DockPanel>
         <TabControl>
-            <TabItem Header="Поиск по сайтам" Height="23" VerticalAlignment="Top">
+            <TabItem Header="Поиск по сайтам">
                 <Grid>
                     <Label
                         Content="Поле для ввода ISBN:"
@@ -60,8 +60,7 @@
                         Content="Полный прайс"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
-                        Margin="170,270,0,55"
-                        >
+                        Margin="170,270,0,55">
                     </CheckBox>
                     <Label
                         Content="Группы для исключения:"

@@ -142,7 +142,6 @@ namespace RELOD_Tools.PriceList
             //==================================================================================================
 
             // Блок переноса данных из массива price в итоговый priceList
-            int count = 1; // Переменная для указания порядкового номера начиная с 1
             
             for (int i = 0; i < rows; i++)
             {
@@ -171,7 +170,6 @@ namespace RELOD_Tools.PriceList
 
                     priceList.Add(new PriceModel
                     {
-                        Number          = (count++).ToString(),                         // присваиваем #
                         ISBN            = price[i, 1],                                  // присваиваем ISBN
                         Title           = price[i, 14],                                 // присваиваем Наименование
                         Price           = float.Parse(price[i, 6], culture).ToString(), // присваиваем Цену
@@ -190,7 +188,6 @@ namespace RELOD_Tools.PriceList
             // Добавляем шапку в начало списка
             priceList.Insert(0, new PriceModel
             {
-                Number          = "#",
                 ISBN            = "ISBN",
                 Title           = "Наименование товара",
                 Price           = "Цена с НДС",

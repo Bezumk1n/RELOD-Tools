@@ -8,7 +8,6 @@ namespace RELOD_Tools.PriceList
 {
     class PriceModel
     {
-        public string Number { get; set; }
         public string ISBN { get; set; }
         public string Title { get; set; }
         public string Price { get; set; }

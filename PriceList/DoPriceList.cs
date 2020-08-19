@@ -185,6 +185,14 @@ namespace RELOD_Tools.PriceList
             // Сортируем наш прайс по полю ShortTitle
             priceList = priceList.OrderBy(item => item.ShortTitle).ToList();
 
+            // Добавляем нумерацию
+            int count = 1;
+            foreach (PriceModel item in priceList)
+            {
+                item.Number = count.ToString();
+                count++;
+            }
+
             // Добавляем шапку в начало списка
             priceList.Insert(0, new PriceModel
             {
@@ -211,6 +219,7 @@ namespace RELOD_Tools.PriceList
 
             worksheet.Cells["A1"].LoadFromCollection(priceList);
 
+            // Сохраняем файл
             SaveFileDialog sfd  = new SaveFileDialog();
             string fileName     = "Price roznitca " + DateTime.Now.ToString("dd.MM.yyyy");
             sfd.Title           = "Сохранить прайс-лист ...";

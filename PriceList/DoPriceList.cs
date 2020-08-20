@@ -12,7 +12,6 @@ namespace RELOD_Tools.PriceList
 {
     public class DoPriceList
     {
-        protected delegate void UpdateProgressBarDelegate(System.Windows.DependencyProperty dp, Object value);
         public DoPriceList(string exceptionsList, bool? fullPrice)
         {
             List<PriceModel> priceList  = new List<PriceModel>();
@@ -173,8 +172,8 @@ namespace RELOD_Tools.PriceList
                     {
                         ISBN            = price[i, 1],                                  // присваиваем ISBN
                         Title           = price[i, 14],                                 // присваиваем Наименование
-                        Price           = double.Parse(price[i, 6], culture),//.ToString(), // присваиваем Цену
-                        VAT             = double.Parse(price[i, 4], culture),//.ToString(), // присваиваем НДС
+                        Price           = double.Parse(price[i, 6], culture),           // присваиваем Цену
+                        VAT             = double.Parse(price[i, 4], culture),           // присваиваем НДС
                         Group           = price[i, 3],                                  // присваиваем Группу
                         QTYwarehouse    = warehouse,                                    // присваиваем Количество на складах (Северянин + Пушкарев)
                         QTYstore        = store,                                        // присваиваем Количество в магазине

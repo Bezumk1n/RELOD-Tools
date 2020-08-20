@@ -5,6 +5,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 
@@ -227,6 +228,8 @@ namespace RELOD_Tools.PriceList
             worksheet.Column(8).Width = 19;     // Кол-во в магазине
             worksheet.Column(9).Width = 24;     // краткое наименование
 
+            // Устанавливаем границы, автофильтр, жирный шрифт для шапки, закрепляем первую строку, 
+            // а также меняем цифровой формат для столбца с ценами
             worksheet.Column(4).Style.Numberformat.Format   = "0.00";
             worksheet.View.FreezePanes(2,1);
             worksheet.Cells["A1:I1"].Style.Font.Bold        = true;
@@ -243,12 +246,25 @@ namespace RELOD_Tools.PriceList
             sfd.DefaultExt      = ".xlsx";
             sfd.FileName        = fileName;
             sfd.Filter          = "Ecxel (*.xlsx) | *.xlsx";
-
+            
             if (sfd.ShowDialog() == true)
             {
                 FileInfo fi = new FileInfo(sfd.FileName);
                 excelPackage.SaveAs(fi);
             }
+
+            AddPriceToZIP(sfd.FileName);
+        }
+        private void AddPriceToZIP(string path)
+        {
+            string startPath    = path.Remove(path.LastIndexOf("\\"));
+            string zipPath      = path.Remove(path.LastIndexOf("\\")) + "/relod_price.zip";
+
+            try
+            {
+                ZipFile.CreateFromDirectory(startPath, zipPath);
+            }
+            catch { }
         }
     }
 }

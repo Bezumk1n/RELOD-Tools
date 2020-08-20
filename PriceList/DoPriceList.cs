@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 
 namespace RELOD_Tools.PriceList
 {
@@ -150,30 +151,30 @@ namespace RELOD_Tools.PriceList
                     string warehouse    = "0";
                     string store        = "0";
 
-                    if ((float.Parse(price[i, 7], culture) + float.Parse(price[i, 11], culture)) > 10)
+                    if ((double.Parse(price[i, 7], culture) + double.Parse(price[i, 11], culture)) > 10)
                     {
                         warehouse = "Более 10 шт";
                     }
                     else
                     {
-                        warehouse = (float.Parse(price[i, 7], culture) + float.Parse(price[i, 11], culture)).ToString();
+                        warehouse = (double.Parse(price[i, 7], culture) + double.Parse(price[i, 11], culture)).ToString();
                     }
 
-                    if (float.Parse(price[i, 9], culture) > 10)
+                    if (double.Parse(price[i, 9], culture) > 10)
                     {
                         store = "Более 10 шт";
                     }
                     else
                     {
-                        store = float.Parse(price[i, 9], culture).ToString();
+                        store = double.Parse(price[i, 9], culture).ToString();
                     }
 
                     priceList.Add(new PriceModel
                     {
                         ISBN            = price[i, 1],                                  // присваиваем ISBN
                         Title           = price[i, 14],                                 // присваиваем Наименование
-                        Price           = float.Parse(price[i, 6], culture).ToString(), // присваиваем Цену
-                        VAT             = float.Parse(price[i, 4], culture).ToString(), // присваиваем НДС
+                        Price           = double.Parse(price[i, 6], culture),//.ToString(), // присваиваем Цену
+                        VAT             = double.Parse(price[i, 4], culture),//.ToString(), // присваиваем НДС
                         Group           = price[i, 3],                                  // присваиваем Группу
                         QTYwarehouse    = warehouse,                                    // присваиваем Количество на складах (Северянин + Пушкарев)
                         QTYstore        = store,                                        // присваиваем Количество в магазине
@@ -189,24 +190,9 @@ namespace RELOD_Tools.PriceList
             int count = 1;
             foreach (PriceModel item in priceList)
             {
-                item.Number = count.ToString();
+                item.Number = count; //.ToString();
                 count++;
             }
-
-            // Добавляем шапку в начало списка
-            priceList.Insert(0, new PriceModel
-            {
-                ISBN            = "ISBN",
-                Title           = "Наименование товара",
-                Price           = "Цена с НДС",
-                VAT             = "НДС",
-                Group           = "Группа товара",
-                QTYwarehouse    = "Кол-во на складе",
-                QTYstore        = "Кол-во в магазине",
-                ShortTitle      = "Краткое наименование"
-            }
-            );
-            //==================================================================================================
 
             SaveAsExcel(priceList);
         }
@@ -217,7 +203,39 @@ namespace RELOD_Tools.PriceList
             ExcelPackage excelPackage   = new ExcelPackage();
             ExcelWorksheet worksheet    = excelPackage.Workbook.Worksheets.Add(DateTime.Now.ToString("dd.MM.yyyy"));
 
-            worksheet.Cells["A1"].LoadFromCollection(priceList);
+            // Добавляем шапку в первую строку
+            worksheet.Cells["A1"].Value = "#";
+            worksheet.Cells["B1"].Value = "ISBN";
+            worksheet.Cells["C1"].Value = "Наименование товара";
+            worksheet.Cells["D1"].Value = "Цена с НДС";
+            worksheet.Cells["E1"].Value = "НДС";
+            worksheet.Cells["F1"].Value = "Группа товара";
+            worksheet.Cells["G1"].Value = "Кол-во на складе";
+            worksheet.Cells["H1"].Value = "Кол-во в магазине";
+            worksheet.Cells["I1"].Value = "Краткое наименование";
+
+            // Добавляем данные из priceList начиная со второй строки
+            worksheet.Cells["A2"].LoadFromCollection(priceList);
+
+            // Устанавливаем ширину столбцов, кроме последнего ("Краткое наименование")
+            worksheet.Column(1).AutoFit();      // #
+            worksheet.Column(2).Width = 16;     // ISBN
+            worksheet.Column(3).Width = 110;    // Наименование товара
+            worksheet.Column(4).Width = 13;     // Цена с НДС
+            worksheet.Column(5).Width = 7;      // НДС
+            worksheet.Column(6).Width = 22;     // Группа товара
+            worksheet.Column(7).Width = 19;     // Кол-во на складе
+            worksheet.Column(8).Width = 19;     // Кол-во в магазине
+            worksheet.Column(9).Width = 24;     // краткое наименование
+
+            worksheet.Column(4).Style.Numberformat.Format   = "0.00";
+            worksheet.View.FreezePanes(2,1);
+            worksheet.Cells["A1:I1"].Style.Font.Bold        = true;
+            worksheet.Cells["A1:I1"].AutoFilter             = true;
+            worksheet.Cells["A1:I" + (priceList.Count + 1)].Style.Border.Top.Style      = ExcelBorderStyle.Thin;
+            worksheet.Cells["A1:I" + (priceList.Count + 1)].Style.Border.Right.Style    = ExcelBorderStyle.Thin;
+            worksheet.Cells["A1:I" + (priceList.Count + 1)].Style.Border.Bottom.Style   = ExcelBorderStyle.Thin;
+            worksheet.Cells["A1:I" + (priceList.Count + 1)].Style.Border.Left.Style     = ExcelBorderStyle.Thin;
 
             // Сохраняем файл
             SaveFileDialog sfd  = new SaveFileDialog();

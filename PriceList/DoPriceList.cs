@@ -257,14 +257,22 @@ namespace RELOD_Tools.PriceList
         }
         private void AddPriceToZIP(string path)
         {
-            string startPath    = path.Remove(path.LastIndexOf("\\"));
-            string zipPath      = path.Remove(path.LastIndexOf("\\")) + "/relod_price.zip";
+            string temp = @"\_temp\";
+            string directory = path.Remove(path.LastIndexOf("\\"));
+            string fileName = path.Substring(path.LastIndexOf("\\") + 1);
+
+            Directory.CreateDirectory(directory + temp);
+            File.Copy(path, directory + temp + fileName, true);
+            string startPath    = directory + temp;
+            string zipPath      = directory + temp + "relod_price.zip";
 
             try
             {
                 ZipFile.CreateFromDirectory(startPath, zipPath);
             }
             catch { }
+            File.Copy(zipPath, directory + @"\relod_price.zip");
+            Directory.Delete(startPath, true);
         }
     }
 }

@@ -241,7 +241,7 @@ namespace RELOD_Tools.PriceList
 
             // Сохраняем файл
             SaveFileDialog sfd  = new SaveFileDialog();
-            string fileName     = "Price roznitca " + DateTime.Now.ToString("dd.MM.yyyy");
+            string fileName     = "Price roznitca " + DateTime.Now.ToString("dd.MM.yyyy"); // имя файла по-умолчанию
             sfd.Title           = "Сохранить прайс-лист ...";
             sfd.DefaultExt      = ".xlsx";
             sfd.FileName        = fileName;
@@ -257,20 +257,24 @@ namespace RELOD_Tools.PriceList
         }
         private void AddPriceToZIP(string path)
         {
-            string temp = @"\_temp\";
-            string directory = path.Remove(path.LastIndexOf("\\"));
-            string fileName = path.Substring(path.LastIndexOf("\\") + 1);
+            string temp         = @"\_temp\";                                   // Имя временной папки, по завершении работы она будет удалена
+            string directory    = path.Remove(path.LastIndexOf("\\"));          // Директория, в которой был сохранен прайс (берем путь, и из него удаляем имя файла)
+            string fileName     = path.Substring(path.LastIndexOf("\\") + 1);   // Выделяем имя файла. Нужно чтобы скопировать файл во временную папку
+            string startPath    = directory + temp;                             // Путь к архивируемой папке
+            string zipPath      = directory + temp + "relod_price.zip";         // Полный путь к выходному файлу
 
+            // Создаем временную папку и копируем туда прайс
             Directory.CreateDirectory(directory + temp);
             File.Copy(path, directory + temp + fileName, true);
-            string startPath    = directory + temp;
-            string zipPath      = directory + temp + "relod_price.zip";
 
+            // Пытаемся заархивировать папку. Здесь через блок try{} catch{}, т.к. почему-то выбивает исключение, но архив нормально создается
             try
             {
                 ZipFile.CreateFromDirectory(startPath, zipPath);
             }
             catch { }
+
+            // Копируем архив в исходную директорию с прайсом и удаляем временную папку
             File.Copy(zipPath, directory + @"\relod_price.zip");
             Directory.Delete(startPath, true);
         }

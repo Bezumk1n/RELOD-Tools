@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace RELOD_Tools.WebParsing.WebSearch
 {
-    abstract class Errors
+    static class Errors
     {
         public static void LoginPageError(Exception ex)
         {

@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace RELOD_Tools.Logic
 {
-    abstract class AlphabetCheck
+    static class AlphabetCheck
     {
         public static string Check(string str)
         {

@@ -9,7 +9,7 @@ using Microsoft.Win32;
 
 namespace RELOD_Tools.Logic
 {
-    abstract class WorkWithFile
+    static class WorkWithFile
     {
         public static string CheckForExceptionsFileExistance(string exceptionsDirectory, string exceptionsFilePath)
         {

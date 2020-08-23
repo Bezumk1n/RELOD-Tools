@@ -2,7 +2,7 @@
 
 namespace RELOD_Tools.WebSearch
 {
-    class BookModel
+    public class BookModel
     {
         public string Number { get; set; }
         public string Isbn { get; set; }

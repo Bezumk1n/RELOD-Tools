@@ -4,7 +4,7 @@ using System.Data.SQLite;
 
 namespace RELOD_Tools.CodeGeneration
 {
-    class ShowCodes
+    public class ShowCodes
     {
         public ShowCodes(string dbName, string dbPath)
         {

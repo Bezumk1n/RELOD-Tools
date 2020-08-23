@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RELOD_Tools.PriceList
 {
-    class PriceModel
+    public class PriceModel
     {
         public int Number { get; set; }
         public string ISBN { get; set; }

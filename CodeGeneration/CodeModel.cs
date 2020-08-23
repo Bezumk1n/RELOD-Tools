@@ -2,7 +2,7 @@
 
 namespace RELOD_Tools.CodeGeneration
 {
-    class CodeModel
+    public class CodeModel
     {
         public int Id { get; set; }
         public string Code { get; set; }

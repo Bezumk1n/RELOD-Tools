@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace RELOD_Tools.WebSearch
 {
-    abstract class SelectSite
+    static class SelectSite
     {
         public static void Search(string[] isbns, string webSite)
         {

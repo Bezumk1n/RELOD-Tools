@@ -1,8 +1,6 @@
 ﻿using RELOD_Tools.WebParsing.WebSearch.Site;
 using RELOD_Tools.WebSearch.Site;
 
-using System.Windows;
-
 namespace RELOD_Tools.WebSearch
 {
     static class SelectSite

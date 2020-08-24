@@ -247,7 +247,7 @@ namespace RELOD_Tools.PriceList
             sfd.Title           = "Сохранить прайс-лист ...";
             sfd.DefaultExt      = ".xlsx";
             sfd.FileName        = fileName;
-            sfd.Filter          = "Ecxel (*.xlsx) | *.xlsx";
+            sfd.Filter          = "Excel (*.xlsx) | *.xlsx";
             
             if (sfd.ShowDialog() == true)
             {

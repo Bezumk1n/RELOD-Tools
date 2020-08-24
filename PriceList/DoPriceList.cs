@@ -223,12 +223,12 @@ namespace RELOD_Tools.PriceList
             worksheet.Column(1).AutoFit();      // #
             worksheet.Column(2).Width = 16;     // ISBN
             worksheet.Column(3).Width = 110;    // Наименование товара
-            worksheet.Column(4).Width = 13;     // Цена с НДС
+            worksheet.Column(4).Width = 15;     // Цена с НДС
             worksheet.Column(5).Width = 7;      // НДС
             worksheet.Column(6).Width = 22;     // Группа товара
-            worksheet.Column(7).Width = 19;     // Кол-во на складе
-            worksheet.Column(8).Width = 19;     // Кол-во в магазине
-            worksheet.Column(9).Width = 24;     // краткое наименование
+            worksheet.Column(7).Width = 20;     // Кол-во на складе
+            worksheet.Column(8).Width = 20;     // Кол-во в магазине
+            worksheet.Column(9).Width = 25;     // краткое наименование
 
             // Устанавливаем границы, автофильтр, жирный шрифт для шапки, закрепляем первую строку, 
             // а также меняем цифровой формат для столбца с ценами
@@ -253,9 +253,8 @@ namespace RELOD_Tools.PriceList
             {
                 FileInfo fi = new FileInfo(sfd.FileName);
                 excelPackage.SaveAs(fi);
+                AddPriceToZIP(sfd.FileName);
             }
-
-            AddPriceToZIP(sfd.FileName);
         }
         private void AddPriceToZIP(string path)
         {
@@ -279,7 +278,7 @@ namespace RELOD_Tools.PriceList
             catch { }
 
             // Копируем архив в исходную директорию с прайсом и удаляем временную папку
-            File.Copy(zipPath, directory + @"\relod_price.zip");
+            File.Copy(zipPath, directory + @"\relod_price.zip", true);
             Directory.Delete(startPath, true);
         }
     }

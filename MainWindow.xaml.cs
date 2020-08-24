@@ -36,7 +36,7 @@ namespace RELOD_Tools
             WorkWithFile.CreateDataBase(
                 dbName,
                 dbPath
-                );            
+                );
         }
         
         // Блок поиска по сайтам
@@ -60,7 +60,7 @@ namespace RELOD_Tools
             }
         }
         // =============================================
-        
+
         // Блок создания прайс-листа
         private void GeneratePrice_Click(object sender, RoutedEventArgs e)
         {

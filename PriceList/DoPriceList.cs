@@ -192,7 +192,7 @@ namespace RELOD_Tools.PriceList
             int count = 1;
             foreach (PriceModel item in priceList)
             {
-                item.Number = count; //.ToString();
+                item.Number = count;
                 count++;
             }
 

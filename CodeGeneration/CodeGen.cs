@@ -46,19 +46,19 @@ namespace RELOD_Tools.CodeGeneration
         private bool CheckInput(string codesQty,string codesLength)
         {
             bool check = true;
+
             if (codesQty != "")
             {
-                try
+                if (Int32.TryParse(codesQty, out qty))
                 {
-                    qty = Int32.Parse(codesQty);
                     if (qty < 1 || qty > 1000)
                     {
                         check = false;
                         MessageBox.Show("Допустимое количество кодов от 1 до 1000 (по умолчанию 1).");
                     }
                 }
-                catch
-                {
+                else
+                { 
                     check = false;
                     MessageBox.Show("В поле \"Количество кодов\" должны быть только цифры.");
                 }
@@ -66,16 +66,15 @@ namespace RELOD_Tools.CodeGeneration
 
             if (codesLength != "")
             {
-                try
+                if (Int32.TryParse(codesLength, out length))
                 {
-                    length = Int32.Parse(codesLength);
                     if (length < 10 || length > 20)
                     {
                         check = false;
                         MessageBox.Show("Допустимая длина кода от 10 до 20 символов(по-умолчанию 10).");
                     }
                 }
-                catch
+                else
                 {
                     check = false;
                     MessageBox.Show("В поле \"Длинна кода\" должны быть только цифры.");
@@ -90,19 +89,19 @@ namespace RELOD_Tools.CodeGeneration
                 {
                     '1', '2', '3', '4', '5','6','7','8','9',
                     'Q','W','E','R','T','Y','U','I','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M',
-                    'q','w','e','r','t','y','u','i','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m',                   
+                    //'q','w','e','r','t','y','u','i','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m',    
+                    //'@','#','$','%','&','!','?'
                 };
-            string result   = string.Empty;
-            char[] temp     = new char[length];
-            int rndResult;
+
+            char[] temp             = new char[length];
+            int codeSymbolsLength   = codeSymbols.Length;
 
             for (int i = 0; i < length; i++)
             {
-                rndResult   = rnd.Next(codeSymbols.Length);
-                temp[i]     = codeSymbols[rndResult];
+                temp[i] = codeSymbols[rnd.Next(codeSymbolsLength)];
             }
-            result = new string(temp);
-            return result;
+
+            return new string(temp);
         }
     }
 }

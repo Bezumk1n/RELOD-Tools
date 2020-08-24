@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace RELOD_Tools.Logic
@@ -7,8 +8,9 @@ namespace RELOD_Tools.Logic
     {
         public static string Check(string str)
         {
-            char[] stringToCharacters = str.ToCharArray();
-            // new char[38, 2]
+            StringBuilder builder       = new StringBuilder(str);
+            char[] stringToCharacters   = str.ToCharArray();
+
             char[,] alphabet =
                 {
                     // Французские символы
@@ -40,8 +42,6 @@ namespace RELOD_Tools.Logic
                     { 'î', 'i'},
                     { 'Ô', 'O'},
                     { 'ô', 'o'},
-                    { '’', '\''},
-                    { '–', '-'},
 
                     // Немецкие символы
                     { 'Ä', 'A'},
@@ -50,6 +50,10 @@ namespace RELOD_Tools.Logic
                     { 'ö', 'o'},
                     { 'Ü', 'U'},
                     { 'ü', 'u'},
+
+                    // Прочие символы
+                    { '’', '\''},
+                    { '–', '-'},
                     { '»', '\''},
                     { '«', '\''}
                 };
@@ -103,7 +107,7 @@ namespace RELOD_Tools.Logic
             str = Regex.Replace(str, @"\s+", " "); // убирает все лишние пробелы и знаки переноса строк
             str = str.Trim();
 
-            return str;
+            return builder.ToString();
         }
     }
 }

@@ -148,25 +148,27 @@ namespace RELOD_Tools.PriceList
             {
                 if (price[i, 0] != "0")
                 {
-                    string warehouse    = "0";
-                    string store        = "0";
+                    string warehouse;
+                    string store;
+                    double warehouseQTY = double.Parse(price[i, 7], culture) + double.Parse(price[i, 11], culture);
+                    double storeQTY     = double.Parse(price[i, 9], culture);
 
-                    if ((double.Parse(price[i, 7], culture) + double.Parse(price[i, 11], culture)) > 10)
+                    if (warehouseQTY > 10)
                     {
                         warehouse = "Более 10 шт";
                     }
                     else
                     {
-                        warehouse = (double.Parse(price[i, 7], culture) + double.Parse(price[i, 11], culture)).ToString();
+                        warehouse = warehouseQTY.ToString();
                     }
 
-                    if (double.Parse(price[i, 9], culture) > 10)
+                    if (storeQTY > 10)
                     {
                         store = "Более 10 шт";
                     }
                     else
                     {
-                        store = double.Parse(price[i, 9], culture).ToString();
+                        store = storeQTY.ToString();
                     }
 
                     priceList.Add(new PriceModel

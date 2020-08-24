@@ -265,8 +265,10 @@ namespace RELOD_Tools.PriceList
             string startPath    = directory + temp;                             // Путь к архивируемой папке
             string zipPath      = directory + temp + "relod_price.zip";         // Полный путь к выходному файлу
 
-            // Создаем временную папку и копируем туда прайс
+            // Создаем временную скрытую папку "_temp" и копируем туда прайс
             Directory.CreateDirectory(directory + temp);
+            DirectoryInfo hideFolder = new DirectoryInfo(directory + temp);
+            hideFolder.Attributes = FileAttributes.Hidden;
             File.Copy(path, directory + temp + fileName, true);
 
             // Пытаемся заархивировать папку. Здесь через блок try{} catch{}, т.к. почему-то выбивает исключение, но архив нормально создается

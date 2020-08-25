@@ -253,32 +253,8 @@ namespace RELOD_Tools.PriceList
             {
                 FileInfo fi = new FileInfo(sfd.FileName);
                 excelPackage.SaveAs(fi);
-                AddPriceToZIP(sfd.FileName);
+                WorkWithFile.AddPriceToZIP(sfd.FileName);
             }
-        }
-        private void AddPriceToZIP(string path)
-        {
-            string temp             = @"\_temp\";                                   // Имя временной папки, по завершении работы она будет удалена
-            string directory        = path.Remove(path.LastIndexOf("\\"));          // Директория, в которой был сохранен прайс (берем путь, и из него удаляем имя файла)
-            string fileName         = path.Substring(path.LastIndexOf("\\") + 1);   // Выделяем имя файла. Нужно чтобы скопировать файл во временную папку
-            string startPath        = directory + temp;                             // Путь к архивируемой папке
-            string zipPath          = directory + @"\relod_price.zip";              // Полный путь к выходному файлу
-            string abbreviations    = @"\Список сокращений.doc";                    // Файл со списком сокращений
-
-            // Создаем временную скрытую папку "_temp" и копируем туда прайс
-            Directory.CreateDirectory(directory + temp);
-            DirectoryInfo hideFolder = new DirectoryInfo(directory + temp);
-            hideFolder.Attributes = FileAttributes.Hidden;
-
-            File.Copy(path, directory + temp + fileName, true);
-            File.Copy(directory + abbreviations, directory + temp + abbreviations, true);
-
-            // Удаляем старый архив и создаем новый
-            File.Delete(zipPath);
-            ZipFile.CreateFromDirectory(startPath, zipPath);
-
-            // Удаляем временную папку
-            Directory.Delete(startPath, true);
         }
     }
 }

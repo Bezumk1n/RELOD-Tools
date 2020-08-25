@@ -258,27 +258,26 @@ namespace RELOD_Tools.PriceList
         }
         private void AddPriceToZIP(string path)
         {
-            string temp         = @"\_temp\";                                   // Имя временной папки, по завершении работы она будет удалена
-            string directory    = path.Remove(path.LastIndexOf("\\"));          // Директория, в которой был сохранен прайс (берем путь, и из него удаляем имя файла)
-            string fileName     = path.Substring(path.LastIndexOf("\\") + 1);   // Выделяем имя файла. Нужно чтобы скопировать файл во временную папку
-            string startPath    = directory + temp;                             // Путь к архивируемой папке
-            string zipPath      = directory + temp + "relod_price.zip";         // Полный путь к выходному файлу
+            string temp             = @"\_temp\";                                   // Имя временной папки, по завершении работы она будет удалена
+            string directory        = path.Remove(path.LastIndexOf("\\"));          // Директория, в которой был сохранен прайс (берем путь, и из него удаляем имя файла)
+            string fileName         = path.Substring(path.LastIndexOf("\\") + 1);   // Выделяем имя файла. Нужно чтобы скопировать файл во временную папку
+            string startPath        = directory + temp;                             // Путь к архивируемой папке
+            string zipPath          = directory + @"\relod_price.zip";              // Полный путь к выходному файлу
+            string abbreviations    = @"\Список сокращений.doc";                    // Файл со списком сокращений
 
             // Создаем временную скрытую папку "_temp" и копируем туда прайс
             Directory.CreateDirectory(directory + temp);
             DirectoryInfo hideFolder = new DirectoryInfo(directory + temp);
             hideFolder.Attributes = FileAttributes.Hidden;
+
             File.Copy(path, directory + temp + fileName, true);
+            File.Copy(directory + abbreviations, directory + temp + abbreviations, true);
 
-            // Пытаемся заархивировать папку. Здесь через блок try{} catch{}, т.к. почему-то выбивает исключение, но архив нормально создается
-            try
-            {
-                ZipFile.CreateFromDirectory(startPath, zipPath);
-            }
-            catch { }
+            // Удаляем старый архив и создаем новый
+            File.Delete(zipPath);
+            ZipFile.CreateFromDirectory(startPath, zipPath);
 
-            // Копируем архив в исходную директорию с прайсом и удаляем временную папку
-            File.Copy(zipPath, directory + @"\relod_price.zip", true);
+            // Удаляем временную папку
             Directory.Delete(startPath, true);
         }
     }

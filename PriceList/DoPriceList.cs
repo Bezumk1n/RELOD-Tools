@@ -134,7 +134,7 @@ namespace RELOD_Tools.PriceList
                             price[i, 0] = "0";
                         }
                     }
-                    if (price[i, 3] == "RELOD Ltd. (RUR)" || price[i, 3] == "RELOD LTD." && price[i, 7] == "0.00" && price[i, 9] == "0.00" && price[i, 11] == "0.00")
+                    if (price[i, 3] == "RELOD Ltd. (RUR)" || price[i, 3] == "RELOD LTD." || price[i, 3] == "SELT" && price[i, 7] == "0.00" && price[i, 9] == "0.00" && price[i, 11] == "0.00")
                     {
                         price[i, 0] = "0";
                     }

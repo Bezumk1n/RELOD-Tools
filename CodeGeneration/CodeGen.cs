@@ -5,8 +5,10 @@ using System.Data.SQLite;
 
 namespace RELOD_Tools.CodeGeneration
 {
-    public class CodeGen 
+    public class CodeGen : IDisposable
     {
+        public void Dispose() { }
+
         Random rnd          = new Random();
         private int qty     = 1; // количество генерируемых кодов по-умолчанию
         private int length  = 10;// длинна кода по-умолчанию

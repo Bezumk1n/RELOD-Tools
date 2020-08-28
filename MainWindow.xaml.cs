@@ -86,7 +86,7 @@ namespace RELOD_Tools
         // Блок генерирования кодов
         private void GenerateCode_Click(object sender, RoutedEventArgs e)
         {
-            new CodeGen(
+            CodeGen cg = new CodeGen(
                 codesQTY.Text,
                 codesLength.Text,
                 mustStartWith.Text,
@@ -94,13 +94,15 @@ namespace RELOD_Tools
                 dbName,
                 dbPath
                 );
+            cg.Dispose();
         }
         private void ShowCodes_Click(object sender, RoutedEventArgs e)
         {
-            new ShowCodes(
+            ShowCodes sc = new ShowCodes(
                 dbName,
                 dbPath
                 );
+            sc.Dispose();
         }
         // =============================================
         

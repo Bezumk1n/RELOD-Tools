@@ -4,8 +4,10 @@ using System.Data.SQLite;
 
 namespace RELOD_Tools.CodeGeneration
 {
-    public class ShowCodes
+    public class ShowCodes : IDisposable
     {
+        public void Dispose() { }
+
         public ShowCodes(string dbName, string dbPath)
         {
             List<CodeModel> codesList = new List<CodeModel>();

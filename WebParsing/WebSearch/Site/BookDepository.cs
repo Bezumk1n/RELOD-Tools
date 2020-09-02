@@ -320,6 +320,16 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
                             }
                             //==================================================================================================
                         }
+
+                        // Присваиваем ссылку на картинку
+                        temp = "<div class=\"item-img-content\">";
+                        if (pageSource.Contains(temp))
+                        {
+                            imageUrl = pageSource.Substring(pageSource.IndexOf(temp) + temp.Length);
+                            imageUrl = imageUrl.Substring(imageUrl.IndexOf("\"") + 1);
+                            imageUrl = imageUrl.Remove(imageUrl.IndexOf("\" "));
+                        }
+
                         AddBookToList();
                         ClearBookList();
                     }

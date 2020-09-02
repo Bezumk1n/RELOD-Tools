@@ -45,6 +45,7 @@ namespace RELOD_Tools.WebSearch
         protected string length             = "";
         protected string height             = "";
         protected string width              = "";
+        protected string imageUrl           = "";
         private void InitBook()
         {
             book.Add(new BookModel()
@@ -79,7 +80,8 @@ namespace RELOD_Tools.WebSearch
                 Contents                    = "Содержание",
                 Length                      = "Длинна",
                 Width                       = "Ширина",
-                Height                      = "Высота"
+                Height                      = "Высота",
+                ImageUrl                    = "Ссылка на картинку"
             });
         }
 
@@ -118,7 +120,8 @@ namespace RELOD_Tools.WebSearch
                 Contents                    = contents,
                 Length                      = length,
                 Height                      = height,
-                Width                       = width
+                Width                       = width,
+                ImageUrl                    = imageUrl
             });
         }
         // Функция для очистки переменных. Это нужно для того чтобы после каждой итерации поиска позиций обнулялись переменные,
@@ -155,6 +158,7 @@ namespace RELOD_Tools.WebSearch
             length                          = "";
             height                          = "";
             width                           = "";
+            imageUrl                        = "";
     }
     }
 }

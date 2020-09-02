@@ -79,7 +79,7 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
                         string checkISBN = pageSource.Substring(pageSource.IndexOf(temp) + temp.Length);
                         checkISBN = checkISBN.Remove(checkISBN.IndexOf("<"));
 
-                        if (isbn != checkISBN)
+                        if (isbn != checkISBN && !pageSource.Contains("Advanced Search"))
                         {
                             isbn2 = "ISBN не совпадает: " + checkISBN;
                         }
@@ -203,10 +203,11 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
                                 weight = weight.Remove(weight.IndexOf("</span>"));
                                 weight = weight.Substring(weight.IndexOf("| ") + 1);
                                 weight = weight.Remove(weight.IndexOf("g"));
+                                weight = weight.Replace(",", "");
 
                                 weight = AlphabetCheck.Check(weight);
 
-                                weight = ((float.Parse(weight)) / 1000).ToString();
+                                weight = ((double.Parse(weight)) / 1000).ToString();
                             }
                             catch 
                             {

@@ -73,6 +73,7 @@ namespace RELOD_Tools.Logic
                     sw.Write(bm.Length + '\t');
                     sw.Write(bm.Width + '\t');
                     sw.Write(bm.Height + '\t');
+                    sw.Write(bm.ImageUrl);
                     sw.WriteLine();
                 }
                 sw.Close();

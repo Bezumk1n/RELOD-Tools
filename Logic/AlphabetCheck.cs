@@ -8,7 +8,7 @@ namespace RELOD_Tools.Logic
     {
         public static string Check(string str)
         {
-            StringBuilder builder       = new StringBuilder(str);
+            //StringBuilder builder       = new StringBuilder(str);
             char[] stringToCharacters   = str.ToCharArray();
 
             char[,] alphabet =
@@ -107,7 +107,7 @@ namespace RELOD_Tools.Logic
             str = Regex.Replace(str, @"\s+", " "); // убирает все лишние пробелы и знаки переноса строк
             str = str.Trim();
 
-            return builder.ToString();
+            return str;
         }
     }
 }

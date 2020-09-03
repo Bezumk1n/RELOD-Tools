@@ -27,6 +27,9 @@ namespace RELOD_Tools.WebSearch
                 case "BookDepository":
                     new BookDepository(isbns);
                     break;
+                case "Ingram":
+                    new Ingram(isbns);
+                    break;
             }
         }
     }

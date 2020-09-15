@@ -12,7 +12,7 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
 {
     class PubEasy : SiteSearchModel
     {
-        ChromeDriver cd = new ChromeDriver();
+        IWebDriver cd = new ChromeDriver();
         public PubEasy(string[] isbns)
         {
             string loginPage    = "https://beta.pubeasy.com/static/pubeasy/index.html";

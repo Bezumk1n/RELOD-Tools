@@ -125,6 +125,7 @@
     <Compile Include="WebParsing\WebSearch\Site\ABEIPS.cs" />
     <Compile Include="WebParsing\WebSearch\Site\AmericanPubEasy.cs" />
     <Compile Include="WebParsing\WebSearch\Site\BookDepository.cs" />
+    <Compile Include="WebParsing\WebSearch\Site\Brill.cs" />
     <Compile Include="WebParsing\WebSearch\Site\Gardners.cs" />
     <Compile Include="WebParsing\WebSearch\SelectSite.cs" />
     <Compile Include="WebParsing\WebSearch\Site\Ingram.cs" />

@@ -30,6 +30,9 @@ namespace RELOD_Tools.WebSearch
                 case "Ingram":
                     new Ingram(isbns);
                     break;
+                case "Brill":
+                    new Brill(isbns);
+                    break;
             }
         }
     }

@@ -33,6 +33,7 @@
                         <ComboBoxItem IsSelected="True">ABE-IPS</ComboBoxItem>
                         <ComboBoxItem>American PubEasy</ComboBoxItem>
                         <ComboBoxItem>BookDepository</ComboBoxItem>
+                        <ComboBoxItem>Brill</ComboBoxItem>
                         <ComboBoxItem>Ingram</ComboBoxItem>
                         <ComboBoxItem>Gardners</ComboBoxItem>
                         <ComboBoxItem>Libri</ComboBoxItem>

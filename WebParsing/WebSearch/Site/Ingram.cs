@@ -4,13 +4,6 @@ using OpenQA.Selenium.Support.UI;
 using RELOD_Tools.Logic;
 using RELOD_Tools.WebSearch;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -18,11 +11,11 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
 {
     class Ingram : SiteSearchModel
     {
+        IWebDriver cd = new ChromeDriver();
         bool AdvancedSearch = false;
         public Ingram(string[] isbns)
         {
             string loginPage = "https://ipage.ingramcontent.com/ipage/li001.jsp";
-            string isbnUrl = "https://www.gardners.com/Product/";
             string username = "lrelod";
             string password = "jGH4xABv";
 
@@ -38,26 +31,23 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
             Application.Current.Dispatcher.Invoke(updatePbDelegate, DispatcherPriority.Background, new object[] { System.Windows.Controls.ProgressBar.ValueProperty, progressvalue });
             //==================================================================================================
 
-            IWebDriver driver = new ChromeDriver();
-
-            WebDriverWait wait5 = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            WebDriverWait wait10 = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            WebDriverWait wait16 = new WebDriverWait(driver, TimeSpan.FromSeconds(16));
+            WebDriverWait wait5 = new WebDriverWait(cd, TimeSpan.FromSeconds(5));
+            WebDriverWait wait10 = new WebDriverWait(cd, TimeSpan.FromSeconds(10));
+            WebDriverWait wait16 = new WebDriverWait(cd, TimeSpan.FromSeconds(16));
 
             try
             {
-                driver.Url = loginPage;
+                cd.Url = loginPage;
+                IWebElement element;
 
                 // КОД для логина и пароля
-                IWebElement Username = driver.FindElement(By.Id("userIDText"));
-                IWebElement Password = driver.FindElement(By.Id("passwordText"));
+                element = cd.FindElement(By.Id("userIDText"));
+                element.SendKeys(username);
+                element = cd.FindElement(By.Id("passwordText"));
+                element.SendKeys(password);
 
-                //AccauntNumber.SendKeys("REL006");
-                Username.SendKeys(username);
-                Password.SendKeys(password);
-
-                IWebElement Login = driver.FindElement(By.XPath("//button[@class = 'btn btn-primary btn-block']"));
-                Login.Click();
+                element = cd.FindElement(By.XPath("//button[@class = 'btn btn-primary btn-block']"));
+                element.Click();
 
                 try
                 {
@@ -77,15 +67,15 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
 
                         if (isbns[i] != string.Empty)
                         {
-                            IWebElement SearchBox = driver.FindElement(By.XPath("//*[@id = 'searchText']"));
-                            SearchBox.Clear();
-                            SearchBox.SendKeys(isbns[i]);
-                            SearchBox.SendKeys(Keys.Enter);
+                            element = cd.FindElement(By.XPath("//*[@id = 'searchText']"));
+                            element.Clear();
+                            element.SendKeys(isbns[i]);
+                            element.SendKeys(Keys.Enter);
 
                             try
                             {
                                 // КОД для определения нашлась ли искомая позиция
-                                IWebElement advancedSearch = driver.FindElement(By.XPath("//div[@class = 'toggleBox, searchCorrect  top-row breadcrum-section']"));
+                                element = cd.FindElement(By.XPath("//div[@class = 'toggleBox, searchCorrect  top-row breadcrum-section']"));
                                 AdvancedSearch = true;
 
                             }
@@ -95,21 +85,21 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
                             {
                                 try // Поиск наименования
                                 {
-                                    IWebElement element = driver.FindElement(By.XPath("//span[@class = 'productDetailTitle']"));
+                                    element = cd.FindElement(By.XPath("//span[@class = 'productDetailTitle']"));
                                     title = element.Text;
                                 }
                                 catch { }
 
                                 try // Поиск автора
                                 {
-                                    IWebElement element = driver.FindElement(By.XPath("//a[@class = 'doContributorSearch']/span"));
+                                    element = cd.FindElement(By.XPath("//a[@class = 'doContributorSearch']/span"));
                                     author = element.Text;
                                 }
                                 catch { }
 
                                 try // Поиск даты издания
                                 {
-                                    IWebElement element = driver.FindElement(By.XPath("//div[@class = 'productDetailElements' and ./strong[contains(text(), 'Pub Date:')]]"));
+                                    element = cd.FindElement(By.XPath("//div[@class = 'productDetailElements' and ./strong[contains(text(), 'Pub Date:')]]"));
                                     pubDate = element.Text;
                                     pubDate = pubDate.Replace("Pub Date: ", "");
                                 }
@@ -117,14 +107,14 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
 
                                 try // Поиск издательства
                                 {
-                                    IWebElement element = driver.FindElement(By.XPath("//a[@class = 'doSid']"));
+                                    element = cd.FindElement(By.XPath("//a[@class = 'doSid']"));
                                     publisher = element.Text;
                                 }
                                 catch { }
 
                                 try // Поиск цены
                                 {
-                                    IWebElement element = driver.FindElement(By.XPath("//div[@class = 'productDetailElements' and ./strong[contains(text(), 'US SRP:')]]"));
+                                    element = cd.FindElement(By.XPath("//div[@class = 'productDetailElements' and ./strong[contains(text(), 'US SRP:')]]"));
                                     priceWithCurrency = element.Text;
                                     priceWithCurrency = priceWithCurrency.Replace("US SRP: $", "");
                                     priceWithCurrency = priceWithCurrency.Remove(priceWithCurrency.IndexOf(" ")) + " USD"; // удалить весть текст после " "
@@ -135,7 +125,7 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
 
                                 try // Поиск скидки
                                 {
-                                    IWebElement element = driver.FindElement(By.XPath("//div[@class = 'productDetailElements' and ./strong[contains(text(), 'US SRP:')]]"));
+                                    element = cd.FindElement(By.XPath("//div[@class = 'productDetailElements' and ./strong[contains(text(), 'US SRP:')]]"));
                                     discount = element.Text;
                                     discount = discount.Replace("REG", "42%");
                                     discount = discount.Remove(discount.IndexOf(")")); // удалить весть текст после (и включительно) "%", если % нужно оставить, то проставить +1
@@ -147,7 +137,7 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
 
                                 try // Поиск доступности
                                 {
-                                    IWebElement element = driver.FindElement(By.XPath("//span[@class = 'productDetailTitle']/following-sibling::strong"));
+                                    element = cd.FindElement(By.XPath("//span[@class = 'productDetailTitle']/following-sibling::strong"));
                                     availability = element.Text;
                                     availability = availability.Replace("- ", "");
                                 }
@@ -164,48 +154,48 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
                                     int temp6 = 0;
                                     int temp;
 
-                                    IWebElement availabilityTN = driver.FindElement(By.XPath("//table[@class = 'newStockCheckTable']//tr[3]//td[@class = 'scTabledata']"));
+                                    IWebElement availabilityTN = cd.FindElement(By.XPath("//table[@class = 'newStockCheckTable']//tr[3]//td[@class = 'scTabledata']"));
                                     availability = "In stock TN: " + availabilityTN.Text;
                                     availability = availability.Replace(",", "");
 
                                     try
                                     {
-                                        IWebElement availabilityPAC = driver.FindElement(By.XPath("//table[@class = 'newStockCheckTable']//tr[2]//td[@class = 'scTabledata']"));
+                                        IWebElement availabilityPAC = cd.FindElement(By.XPath("//table[@class = 'newStockCheckTable']//tr[2]//td[@class = 'scTabledata']"));
                                         result = Int32.TryParse(availabilityPAC.Text.Replace(",", ""), out temp1);
                                     }
                                     catch { }
 
                                     try
                                     {
-                                        IWebElement availabilityCA = driver.FindElement(By.XPath("//table[@class = 'newAltStockCheckTable']//tr[1]//td[@class = 'scTabledata']"));
+                                        IWebElement availabilityCA = cd.FindElement(By.XPath("//table[@class = 'newAltStockCheckTable']//tr[1]//td[@class = 'scTabledata']"));
                                         result = Int32.TryParse(availabilityCA.Text.Replace(",", ""), out temp2);
                                     }
                                     catch { }
 
                                     try
                                     {
-                                        IWebElement availabilityIN = driver.FindElement(By.XPath("//table[@class = 'newAltStockCheckTable']//tr[2]//td[@class = 'scTabledata']"));
+                                        IWebElement availabilityIN = cd.FindElement(By.XPath("//table[@class = 'newAltStockCheckTable']//tr[2]//td[@class = 'scTabledata']"));
                                         result = Int32.TryParse(availabilityIN.Text.Replace(",", ""), out temp3);
                                     }
                                     catch { }
 
                                     try
                                     {
-                                        IWebElement availabilityOH = driver.FindElement(By.XPath("//table[@class = 'newAltStockCheckTable']//tr[3]//td[@class = 'scTabledata']"));
+                                        IWebElement availabilityOH = cd.FindElement(By.XPath("//table[@class = 'newAltStockCheckTable']//tr[3]//td[@class = 'scTabledata']"));
                                         result = Int32.TryParse(availabilityOH.Text.Replace(",", ""), out temp4);
                                     }
                                     catch { }
 
                                     try
                                     {
-                                        IWebElement availabilityOR = driver.FindElement(By.XPath("//table[@class = 'newAltStockCheckTable']//tr[4]//td[@class = 'scTabledata']"));
+                                        IWebElement availabilityOR = cd.FindElement(By.XPath("//table[@class = 'newAltStockCheckTable']//tr[4]//td[@class = 'scTabledata']"));
                                         result = Int32.TryParse(availabilityOR.Text.Replace(",", ""), out temp5);
                                     }
                                     catch { }
 
                                     try
                                     {
-                                        IWebElement availabilityPAA = driver.FindElement(By.XPath("//table[@class = 'newAltStockCheckTable']//tr[5]//td[@class = 'scTabledata']"));
+                                        IWebElement availabilityPAA = cd.FindElement(By.XPath("//table[@class = 'newAltStockCheckTable']//tr[5]//td[@class = 'scTabledata']"));
                                         result = Int32.TryParse(availabilityPAA.Text.Replace(",", ""), out temp6);
                                     }
                                     catch { }
@@ -217,7 +207,7 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
 
                                 try // Поиск Readership
                                 {
-                                    IWebElement element = driver.FindElement(By.XPath("//td[@class = 'productDetailSmallElements' and ./strong[contains(text(), 'Target Age Group:')]]"));
+                                    element = cd.FindElement(By.XPath("//td[@class = 'productDetailSmallElements' and ./strong[contains(text(), 'Target Age Group:')]]"));
                                     readership = element.Text;
                                     readership = readership.Replace("Target Age Group: ", "");
                                 }
@@ -225,7 +215,7 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
 
                                 try // Поиск веса
                                 {
-                                    IWebElement element = driver.FindElement(By.XPath("//td[@class = 'productDetailSmallElements' and ./strong[contains(text(), 'Physical Info:')]]"));
+                                    element = cd.FindElement(By.XPath("//td[@class = 'productDetailSmallElements' and ./strong[contains(text(), 'Physical Info:')]]"));
                                     weight = element.Text;
                                     weight = weight.Substring(weight.IndexOf("(") + 1); // удалить все до символа
                                     weight = weight.Remove(weight.IndexOf(") ")); // удалить весть текст после (и включительно) ")", если ) нужно оставить, то проставить +1
@@ -234,7 +224,7 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
 
                                 try // Поиск размеров
                                 {
-                                    IWebElement element = driver.FindElement(By.XPath("//td[@class = 'productDetailSmallElements' and ./strong[contains(text(), 'Physical Info:')]]"));
+                                    element = cd.FindElement(By.XPath("//td[@class = 'productDetailSmallElements' and ./strong[contains(text(), 'Physical Info:')]]"));
                                     dimensions = element.Text;
                                     dimensions = dimensions.Replace("Physical Info: ", "");
                                     dimensions = dimensions.Remove(dimensions.IndexOf("(")); // удалить весть текст после (и включительно) "(", если ( нужно оставить, то проставить +1
@@ -267,7 +257,7 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
 
                                 try // Поиск обложки
                                 {
-                                    IWebElement element = driver.FindElement(By.XPath("//div[@class = 'productDetailElements' and ./strong[contains(text(), 'Binding:')]]"));
+                                    element = cd.FindElement(By.XPath("//div[@class = 'productDetailElements' and ./strong[contains(text(), 'Binding:')]]"));
                                     bookCover = element.Text;
                                     bookCover = bookCover.Replace("Binding: ", "");
                                 }
@@ -275,7 +265,7 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
 
                                 try // Поиск количества страниц
                                 {
-                                    IWebElement element = driver.FindElement(By.XPath("//td[@class = 'productDetailSmallElements' and ./strong[contains(text(), 'Physical Info:')]]"));
+                                    element = cd.FindElement(By.XPath("//td[@class = 'productDetailSmallElements' and ./strong[contains(text(), 'Physical Info:')]]"));
                                     pages = element.Text;
                                     pages = pages.Substring(pages.IndexOf(")") + 1);
                                 }
@@ -283,24 +273,24 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
 
                                 try // Поиск серии
                                 {
-                                    IWebElement element = driver.FindElement(By.XPath("//td[@class = 'productDetailSmallElements' and ./strong[contains(text(), 'Series:')]]/a"));
+                                    element = cd.FindElement(By.XPath("//td[@class = 'productDetailSmallElements' and ./strong[contains(text(), 'Series:')]]/a"));
                                     series = element.Text;
                                 }
                                 catch { }
 
                                 try // Поиск описания
                                 {
-                                    IWebElement element = driver.FindElement(By.XPath("//div[@class = 'productDetailElements' and .//strong[contains(text(), 'Annotation:')]]/div/div"));
+                                    element = cd.FindElement(By.XPath("//div[@class = 'productDetailElements' and .//strong[contains(text(), 'Annotation:')]]/div/div"));
                                     description = element.Text;
                                     description = description.Replace("\n", "");
                                     description = description.Replace("\r", "");
                                     description = description.Replace("\r\n", "");
                                     try
                                     {
-                                        element = driver.FindElement(By.XPath("//div[@class = 'productDetailElements' and .//strong[contains(text(), 'Annotation:')]]/div/a"));
+                                        element = cd.FindElement(By.XPath("//div[@class = 'productDetailElements' and .//strong[contains(text(), 'Annotation:')]]/div/a"));
                                         element.Click();
 
-                                        element = driver.FindElement(By.XPath("//div[@class = 'productDetailElements' and .//strong[contains(text(), 'Annotation:')]]/div[2]/div"));
+                                        element = cd.FindElement(By.XPath("//div[@class = 'productDetailElements' and .//strong[contains(text(), 'Annotation:')]]/div[2]/div"));
                                         description = element.Text;
                                         description = description.Replace("\n", "");
                                         description = description.Replace("\r", "");
@@ -312,12 +302,12 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
 
                                 try // Поиск второго ISBN
                                 {
-                                    IWebElement element = driver.FindElement(By.XPath("//div[@class = 'newerVersionAvailable']/a"));
+                                    element = cd.FindElement(By.XPath("//div[@class = 'newerVersionAvailable']/a"));
                                     element.Click();
 
                                     try
                                     {
-                                        element = driver.FindElement(By.XPath("//div[@class = 'productDetailElements' and .//strong[contains(text(), 'EAN:')]]"));
+                                        element = cd.FindElement(By.XPath("//div[@class = 'productDetailElements' and .//strong[contains(text(), 'EAN:')]]"));
                                         isbn2 = element.Text;
                                         isbn2 = isbn2.Substring(isbn2.IndexOf("EAN:"));
                                         isbn2 = isbn2.Replace("EAN:", "");
@@ -334,17 +324,17 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
                 }
                 catch (Exception ex)
                 {
-                    driver.Quit();
+                    cd.Quit();
                     PB.Close();
                     Errors.CustomError(ex);
                 }
-                driver.Quit();
+                cd.Quit();
                 WorkWithFile.SaveFile(book);
                 PB.Close();
             }
             catch (Exception ex)
             {
-                driver.Quit();
+                cd.Quit();
                 PB.Close();
                 Errors.LoginPageError(ex);
             }

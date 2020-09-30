@@ -80,6 +80,7 @@ namespace RELOD_Tools.Logic
             str = str.Replace("--", " - ");
             str = str.Replace("&#39;", "'");
             str = str.Replace("&#34;", "'");
+            str = str.Replace("&#034;", "'");
             str = str.Replace("&#039;", "'");
             str = str.Replace("&#145;", "'");
             str = str.Replace("&#146;", "'");

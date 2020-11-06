@@ -16,8 +16,8 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
         public Ingram(string[] isbns)
         {
             string loginPage = "https://ipage.ingramcontent.com/ipage/li001.jsp";
-            string username = "lrelod";
-            string password = "jGH4xABv";
+            string username = "Имя пользователя";
+            string password = "Пароль";
 
             // Настраиваем Progress Bar
             PB.Show();

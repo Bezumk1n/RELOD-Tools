@@ -314,6 +314,11 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
                                         done = true;
                                     }
                                 }
+
+                                if (description.StartsWith("-"))
+                                {
+                                    description = description.Replace("-", "'-");
+                                }
                             }
                             catch
                             {

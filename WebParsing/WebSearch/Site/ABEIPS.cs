@@ -108,7 +108,7 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
 
                         // Собираем все строки содержащие delimeter в массив divs,
                         // в них нужно найти ту строку в которой упоминается ISBN нашей книги.
-                        // Правильная строка с обрабатывается и присваивается переменной href.
+                        // Правильная строка обрабатывается и присваивается переменной href.
                         string[] div = new string[divCount];
 
                         int divStartIndex   = 0;

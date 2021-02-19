@@ -78,7 +78,7 @@ namespace RELOD_Tools.WebSearch
                 Description                 = "Описание",
                 Language                    = "Язык",
                 Contents                    = "Содержание",
-                Length                      = "Длинна",
+                Length                      = "Длина",
                 Width                       = "Ширина",
                 Height                      = "Высота",
                 ImageUrl                    = "Ссылка на картинку"
@@ -129,36 +129,36 @@ namespace RELOD_Tools.WebSearch
         // а в следующей книге его нет)
         protected void ClearBookList()
         {
-            isbn2                           = "";
-            title                           = "";
-            author                          = "";
-            pubDate                         = "";
-            publisher                       = "";
-            imprint                         = "";
-            supplier                        = "";
-            priceWithCurrency               = "";
-            price                           = "";
-            priceComparision                = "";
-            discount                        = "";
-            availability                    = "";
-            availability2                   = "";
-            marketRestrictions              = "";
-            readership                      = "";
-            edition                         = "";
-            weight                          = "";
-            dimensions                      = "";
-            pubCountry                      = "";
-            classification                  = "";
-            bookCover                       = "";
-            pages                           = "";
-            series                          = "";
-            description                     = "";
-            language                        = "";
-            contents                        = "";
-            length                          = "";
-            height                          = "";
-            width                           = "";
-            imageUrl                        = "";
+            isbn2                           = string.Empty;
+            title                           = string.Empty;
+            author                          = string.Empty;
+            pubDate                         = string.Empty;
+            publisher                       = string.Empty;
+            imprint                         = string.Empty;
+            supplier                        = string.Empty;
+            priceWithCurrency               = string.Empty;
+            price                           = string.Empty;
+            priceComparision                = string.Empty;
+            discount                        = string.Empty;
+            availability                    = string.Empty;
+            availability2                   = string.Empty;
+            marketRestrictions              = string.Empty;
+            readership                      = string.Empty;
+            edition                         = string.Empty;
+            weight                          = string.Empty;
+            dimensions                      = string.Empty;
+            pubCountry                      = string.Empty;
+            classification                  = string.Empty;
+            bookCover                       = string.Empty;
+            pages                           = string.Empty;
+            series                          = string.Empty;
+            description                     = string.Empty;
+            language                        = string.Empty;
+            contents                        = string.Empty;
+            length                          = string.Empty;
+            height                          = string.Empty;
+            width                           = string.Empty;
+            imageUrl                        = string.Empty;
     }
     }
 }

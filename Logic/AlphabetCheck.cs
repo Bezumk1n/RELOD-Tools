@@ -71,40 +71,6 @@ namespace RELOD_Tools.Logic
 
             str = new string(stringToCharacters);
 
-            str = str.Replace("Æ", "AE");
-            str = str.Replace("Œ", "OE");
-            str = str.Replace("æ", "ae");
-            str = str.Replace("œ", "oe");
-            str = str.Replace("ß", "ss");
-            str = str.Replace("ẞ", "Ss");
-            str = str.Replace("--", " - ");
-            str = str.Replace("&#39;", "'");
-            str = str.Replace("&#34;", "'");
-            str = str.Replace("&#034;", "'");
-            str = str.Replace("&#039;", "'");
-            str = str.Replace("&#145;", "'");
-            str = str.Replace("&#146;", "'");
-            str = str.Replace("&#150;", "-");
-            str = str.Replace("&#151;", "-");
-            str = str.Replace("&#174;", "®");
-            str = str.Replace("&#183;", "-");
-            str = str.Replace("&nbsp;", " ");
-            str = str.Replace("&amp;", "&");
-            str = str.Replace("&#8211;", "-");
-            str = str.Replace("&#8212;", "-");
-            str = str.Replace("&#8216;", "'");
-            str = str.Replace("&#8217;", "'");
-            str = str.Replace("&#8220;", "'");
-            str = str.Replace("&#8221;", "'");
-            str = str.Replace("&#8226;", "•");
-            str = str.Replace("&#8230;", "...");
-            str = str.Replace("&#8482;", "™");
-            str = str.Replace("&#x3A;", ":");
-            str = str.Replace("&#x25;", "%");
-            str = str.Replace("&#x20;", " ");
-            str = str.Replace("&lt;", "<");
-            str = str.Replace("&gt;", ">");
-
             str = Regex.Replace(str, @"\s+", " "); // убирает все лишние пробелы и знаки переноса строк
             str = str.Trim();
 

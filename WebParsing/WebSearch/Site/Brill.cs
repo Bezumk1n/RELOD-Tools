@@ -22,7 +22,7 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
         CookieContainer cookieContainer = new CookieContainer();
         public Brill(string[] isbns)
         {
-            string isbnUrl = "https://brill.com/search?q1="; // 9789042036666
+            string isbnUrl = "https://brill.com/search?q1=";
             string pageSource = string.Empty;
             string temp = string.Empty;
 

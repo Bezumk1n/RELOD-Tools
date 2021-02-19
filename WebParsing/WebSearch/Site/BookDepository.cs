@@ -1,7 +1,6 @@
 ﻿using RELOD_Tools.WebSearch;
 using RELOD_Tools.Logic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Threading;
@@ -39,7 +38,7 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
                 for (int i = 0; i < isbns.Length; i++)
                 {
                     // Пауза чтобы не нагружать сервер :)
-                    Thread.Sleep(1000);
+                    Thread.Sleep(2000);
 
                     // Присваиваем порядковый номер
                     number = (i + 1).ToString();
@@ -61,6 +60,7 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
                     {
                         request = (HttpWebRequest)WebRequest.Create(isbnUrl + isbn);
                         request.CookieContainer = cookieContainer;
+                        request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"; // 537.36
 
                         response = (HttpWebResponse)request.GetResponse();
                         sr = new StreamReader(response.GetResponseStream());
@@ -97,7 +97,6 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
                         temp = "<div class=\"author-info";
                         if (pageSource.Contains(temp))
                         {
-
                             temp = pageSource.Substring(pageSource.IndexOf(temp) + temp.Length);
                             temp = temp.Remove(temp.IndexOf("</div>"));
 
@@ -204,10 +203,11 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
                                 weight = weight.Substring(weight.IndexOf("| ") + 1);
                                 weight = weight.Remove(weight.IndexOf("g"));
                                 weight = weight.Replace(",", "");
+                                weight = weight.Replace(".", ",");
 
                                 weight = AlphabetCheck.Check(weight);
 
-                                weight = ((double.Parse(weight)) / 1000).ToString();
+                                weight = Math.Round((double.Parse(weight)) / 1000, 3).ToString();
                             }
                             catch 
                             {
@@ -227,9 +227,9 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
                             string[] dim = dimensions.Split('x');
                             try
                             {
-                                length = dim[1];
-                                width = dim[0];
-                                height = dim[2];
+                                length = Math.Round(double.Parse(dim[1].Replace('.', ','))).ToString();
+                                width = Math.Round(double.Parse(dim[0].Replace('.', ','))).ToString();
+                                height = Math.Round(double.Parse(dim[2].Replace('.', ','))).ToString();
                             }
                             catch { }
                         }
@@ -255,7 +255,10 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
                             // Здесь может быть ошибка. Т.к. не всегда присутствует элемент " | "
                             try
                             {
-                                bookCover = bookCover.Remove(bookCover.IndexOf("|"));
+                                if (bookCover.IndexOf('|') >= 0)
+                                {
+                                    bookCover = bookCover.Remove(bookCover.IndexOf("|"));
+                                }
                             }
                             catch { }
                             bookCover = AlphabetCheck.Check(bookCover);
@@ -277,48 +280,67 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
                             {
                                 description = pageSource.Substring(pageSource.IndexOf(temp) + temp.Length);
                                 description = description.Remove(description.IndexOf("</div>"));
-                                description = description.Remove(description.LastIndexOf("<br />"));
-                                description = description.Replace("<br />", " ");
-
-                                // Иногда в описании присутствуют ссылки (текст содержит <a href = ...>), ищем индексы символов "<" и ">"
-                                // Когда нашли индексы убираем содержимое между ними методом Remove
-
-                                int startIndex = 0;
-                                int lastIndex = 0;
-                                bool done = false;
-
-                                while (done != true)
-                                {
-                                    char[] tempDescription = description.ToCharArray();
-
-                                    for (int j = 0; j < description.Length; j++)
-                                    {
-                                        if (tempDescription[j] == '<')
-                                        {
-                                            startIndex = j;
-                                            break;
-                                        }
-                                    }
-                                    for (int k = startIndex; k < description.Length; k++)
-                                    {
-                                        if (tempDescription[k] == '>')
-                                        {
-                                            lastIndex = k - startIndex + 1;
-                                            break;
-                                        }
-                                    }
-                                    description = description.Remove(startIndex, lastIndex);
-                                    if (!description.Contains('<') && !description.Contains('>'))
-                                    {
-                                        description = AlphabetCheck.Check(description);
-                                        done = true;
-                                    }
-                                }
+                                description = description.Remove(description.IndexOf("<a class"));
+                                //description = description.Remove(description.LastIndexOf("<br />"));
+                                //description = description.Replace("<br />", " ");
 
                                 if (description.StartsWith("-"))
                                 {
                                     description = description.Replace("-", "'-");
                                 }
+
+                                // Иногда в описании присутствуют ссылки (текст содержит <a href = ...>), ищем индексы символов "<" и ">"
+                                // Когда нашли индексы убираем содержимое между ними методом Remove
+                                if (description.Contains("<a href"))
+                                {
+                                    bool isContainsLink = true;
+
+                                    while (isContainsLink != false)
+                                    {
+                                        int startIndex = description.IndexOf("<a href");
+                                        int lastIndex = description.IndexOf(">", startIndex) + 1;
+                                        description = description.Remove(startIndex, lastIndex - startIndex);
+                                        description = description.Replace("</a>", "");
+
+                                        if (!description.Contains("<a href"))
+                                        {
+                                            isContainsLink = false;
+                                        }
+                                    }
+                                }
+                                description = AlphabetCheck.Check(description);
+
+                                //int startIndex = 0;
+                                //int lastIndex = 0;
+                                //bool done = false;
+                                //
+                                //while (done != true)
+                                //{
+                                //    char[] tempDescription = description.ToCharArray();
+                                //
+                                //    for (int j = 0; j < description.Length; j++)
+                                //    {
+                                //        if (tempDescription[j] == '<')
+                                //        {
+                                //            startIndex = j;
+                                //            break;
+                                //        }
+                                //    }
+                                //    for (int k = startIndex; k < description.Length; k++)
+                                //    {
+                                //        if (tempDescription[k] == '>')
+                                //        {
+                                //            lastIndex = k - startIndex + 1;
+                                //            break;
+                                //        }
+                                //    }
+                                //    description = description.Remove(startIndex, lastIndex);
+                                //    if (!description.Contains('<') && !description.Contains('>'))
+                                //    {
+                                //        description = AlphabetCheck.Check(description);
+                                //        done = true;
+                                //    }
+                                //}
                             }
                             catch
                             {

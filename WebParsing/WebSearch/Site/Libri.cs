@@ -288,11 +288,6 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
                 stream.Close();
 
                 response = (HttpWebResponse)request.GetResponse();
-                
-                //response = (HttpWebResponse)request.GetResponse();
-                //sr = new StreamReader(response.GetResponseStream());
-                //pageSource = sr.ReadToEnd();
-                //string a = pageSource;
             }
             catch (Exception ex)
             {

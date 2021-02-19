@@ -309,38 +309,6 @@ namespace RELOD_Tools.WebParsing.WebSearch.Site
                                     }
                                 }
                                 description = AlphabetCheck.Check(description);
-
-                                //int startIndex = 0;
-                                //int lastIndex = 0;
-                                //bool done = false;
-                                //
-                                //while (done != true)
-                                //{
-                                //    char[] tempDescription = description.ToCharArray();
-                                //
-                                //    for (int j = 0; j < description.Length; j++)
-                                //    {
-                                //        if (tempDescription[j] == '<')
-                                //        {
-                                //            startIndex = j;
-                                //            break;
-                                //        }
-                                //    }
-                                //    for (int k = startIndex; k < description.Length; k++)
-                                //    {
-                                //        if (tempDescription[k] == '>')
-                                //        {
-                                //            lastIndex = k - startIndex + 1;
-                                //            break;
-                                //        }
-                                //    }
-                                //    description = description.Remove(startIndex, lastIndex);
-                                //    if (!description.Contains('<') && !description.Contains('>'))
-                                //    {
-                                //        description = AlphabetCheck.Check(description);
-                                //        done = true;
-                                //    }
-                                //}
                             }
                             catch
                             {
